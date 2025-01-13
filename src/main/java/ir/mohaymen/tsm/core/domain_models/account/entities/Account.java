@@ -47,7 +47,7 @@ public class Account extends BaseEntity<Account> {
     }
 
     public Account(String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
-                   String address, PostalCode postalCode) {
+                   String address, PostalCode postalCode, CustomerType customerType) {
         invariantValidation();
         this.customerName = customerName;
         this.identificationCode = identificationCode;
@@ -55,6 +55,7 @@ public class Account extends BaseEntity<Account> {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.postalCode = postalCode;
+        this.customerType = customerType;
     }
 
     @Override
@@ -71,5 +72,7 @@ public class Account extends BaseEntity<Account> {
             throw new IllegalArgumentException("address must not be null or blank");
         else if (postalCode == null)
             throw new IllegalArgumentException("postal code must not be null");
+        else if (customerType == null)
+            throw new IllegalArgumentException("customer type must not be null");
     }
 }
