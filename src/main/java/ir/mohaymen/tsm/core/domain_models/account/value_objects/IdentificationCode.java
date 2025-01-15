@@ -12,7 +12,7 @@ public class IdentificationCode {
     @Column(name = "identification_code", nullable = false, unique = true, length = 10)
     private String code;
 
-    private IdentificationCode(String code){
+    public IdentificationCode(String code){
         if (code == null || code.isBlank() || code.length() != 10)
             throw new IllegalArgumentException("identification code must be 10 digits long and not null or blank");
         this.code = code;

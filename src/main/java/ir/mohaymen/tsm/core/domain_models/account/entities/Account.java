@@ -6,6 +6,7 @@ import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
 import ir.mohaymen.tsm.framework.domain_models.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.SecureRandom;
 import java.sql.Date;
@@ -32,6 +33,12 @@ public class Account extends BaseEntity<Account> {
     @Column(name = "customer_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private CustomerType customerType = CustomerType.PRIVATE;
+    @Column(name = "account_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus = AccountStatus.ACTIVE;
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date creationDate;
 
 
 
@@ -48,7 +55,6 @@ public class Account extends BaseEntity<Account> {
 
     public Account(String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
                    String address, PostalCode postalCode, CustomerType customerType) {
-        invariantValidation();
         this.customerName = customerName;
         this.identificationCode = identificationCode;
         this.date = date;
@@ -56,6 +62,7 @@ public class Account extends BaseEntity<Account> {
         this.address = address;
         this.postalCode = postalCode;
         this.customerType = customerType;
+        invariantValidation();
     }
 
     @Override
