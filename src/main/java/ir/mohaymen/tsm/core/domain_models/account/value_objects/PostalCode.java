@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PostalCode {
     @Column(name = "postalCode", nullable = false, length = 10)
     private String postalCode;
-    private PostalCode(String postalCode){
+    public PostalCode(String postalCode){
         if (postalCode == null || postalCode.isBlank() || postalCode.length() != 10)
             throw new IllegalArgumentException("postal code must be 10 digits long and not null or blank");
         this.postalCode = postalCode;
