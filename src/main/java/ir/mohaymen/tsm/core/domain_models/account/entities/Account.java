@@ -17,7 +17,7 @@ import java.util.Base64;
 @NoArgsConstructor
 public class Account extends BaseEntity<Account> {
     @Column(name = "account_number", nullable = false, unique = true, length = 14, updatable = false)
-    private String accountNumber;
+    private Long accountNumber;
     @Column(name = "customer_name", nullable = false)
     private String customerName;
     @Embedded
@@ -44,12 +44,15 @@ public class Account extends BaseEntity<Account> {
 
     @PrePersist
     private void generateAccountNumber() {
-        if (accountNumber == null || accountNumber.isBlank()) {
+        if (accountNumber == null) {
             SecureRandom random = new SecureRandom();
-            byte[] buffer = new byte[14];
-            random.nextBytes(buffer);
-            String encoded = Base64.getUrlEncoder().withoutPadding().encodeToString(buffer);
-            accountNumber = encoded.substring(0, Math.min(encoded.length(), 14));
+            StringBuilder accountNumberBuilder = new StringBuilder();
+
+            for (int i = 0; i < 14; i++) {
+                int digit = random.nextInt(10);
+                accountNumberBuilder.append(digit);
+            }
+            accountNumber = Long.parseLong(accountNumberBuilder.toString());
         }
     }
 
@@ -81,5 +84,40 @@ public class Account extends BaseEntity<Account> {
             throw new IllegalArgumentException("postal code must not be null");
         else if (customerType == null)
             throw new IllegalArgumentException("customer type must not be null");
+    }
+
+    public void changeDate(Date date){
+        this.date = date;
+        invariantValidation();
+    }
+
+    public void changeAddress(String address) {
+        this.address = address;
+        invariantValidation();
+    }
+
+    public void changeCustomerName(String customerName) {
+        this.customerName = customerName;
+        invariantValidation();
+    }
+
+    public void changePhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber=phoneNumber;
+        invariantValidation();
+    }
+
+    public void changeIdentificationCode(IdentificationCode identificationCode) {
+        this.identificationCode=identificationCode;
+        invariantValidation();
+    }
+
+    public void changePostalCode(PostalCode postalCode) {
+        this.postalCode = postalCode;
+        invariantValidation();
+    }
+
+    public void changeCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+        invariantValidation();
     }
 }
