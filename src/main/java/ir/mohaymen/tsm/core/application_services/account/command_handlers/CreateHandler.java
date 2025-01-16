@@ -7,6 +7,7 @@ import ir.mohaymen.tsm.core.domain_models.account.value_objects.IdentificationCo
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PhoneNumber;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
 import ir.mohaymen.tsm.core.domain_services.account.repositories.AccountRepository;
+import ir.mohaymen.tsm.core.domain_services.account.service.AccountNumberGenerator;
 import ir.mohaymen.tsm.framework.application_services.CommandHandler;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,8 @@ public class CreateHandler implements CommandHandler<Create,Void> {
     public Void handle(Create create) {
         Account account = accountRepository.findByIdentificationCode(new IdentificationCode(create.getIdentificationCode()));
         if (account == null){
-            account = new Account(create.getCustomerName(), new IdentificationCode(create.getIdentificationCode()),
+            Long accountNumber = AccountNumberGenerator.generateAccountNumber();
+            account = new Account(accountNumber,create.getCustomerName(), new IdentificationCode(create.getIdentificationCode()),
                     create.getDate(),new PhoneNumber(create.getPhoneNumber()), create.getAddress(), new PostalCode(create.getPostalCode())
                     , CustomerType.valueOf(create.getCustomerType()));
             accountRepository.save(account);

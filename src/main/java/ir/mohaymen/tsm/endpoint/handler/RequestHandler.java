@@ -1,7 +1,6 @@
 package ir.mohaymen.tsm.endpoint.handler;
 
-import ir.mohaymen.tsm.framework.domain_models.command.Command;
-import org.springframework.http.ResponseEntity;
+import ir.mohaymen.tsm.framework.domain_models.commands.Command;
 
 import java.util.function.Consumer;
 

@@ -23,9 +23,12 @@ public class PartialUpdateHandler implements CommandHandler<PartialUpdate,Void> 
         if (account != null){
             AccountMapping.map(account,partialUpdate);
             accountRepository.save(account);
+
+//            accountRepository.update(account.getAccountNumber(),account.getCustomerName(),account.getPhoneNumber().getPhoneNumber(),account.getCustomerType(),
+//                    account.getAddress(),account.getPostalCode().getPostalCode(),account.getDate(),account.getIdentificationCode().getCode(),
+//                    account.getAccountStatus());
         }else
             throw new EntityNotFoundException("Account is not found.");
-
         return null;
     }
 }

@@ -1,20 +1,25 @@
 package ir.mohaymen.tsm.core.domain_models.account.entities;
 
+import ir.mohaymen.tsm.core.domain_models.account.events.*;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.IdentificationCode;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PhoneNumber;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
+import ir.mohaymen.tsm.core.application_services.audit_log.services.AuditLogListener;
+import ir.mohaymen.tsm.core.domain_models.audit_log.entities.OperationType;
 import ir.mohaymen.tsm.framework.domain_models.entities.BaseEntity;
+import ir.mohaymen.tsm.framework.domain_models.events.Event;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.security.SecureRandom;
 import java.sql.Date;
-import java.util.Base64;
 
 @Table(name = "accounts", schema = "tsm", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
 @Entity
 @NoArgsConstructor
+@EntityListeners(AuditLogListener.class)
+@Getter
 public class Account extends BaseEntity<Account> {
     @Column(name = "account_number", nullable = false, unique = true, length = 14, updatable = false)
     private Long accountNumber;
@@ -36,36 +41,38 @@ public class Account extends BaseEntity<Account> {
     @Column(name = "account_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus = AccountStatus.ACTIVE;
-    @Column(name = "creation_date", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false,updatable = false)
     @CreationTimestamp
-    private Date creationDate;
+    private Date createdAt;
 
-
-
-    @PrePersist
-    private void generateAccountNumber() {
-        if (accountNumber == null) {
-            SecureRandom random = new SecureRandom();
-            StringBuilder accountNumberBuilder = new StringBuilder();
-
-            for (int i = 0; i < 14; i++) {
-                int digit = random.nextInt(10);
-                accountNumberBuilder.append(digit);
-            }
-            accountNumber = Long.parseLong(accountNumberBuilder.toString());
-        }
+    public Account(Long accountNumber, String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
+                   String address, PostalCode postalCode, CustomerType customerType) {
+        handleEvent(new AccountCreated(accountNumber,customerName,identificationCode,date,phoneNumber,address,postalCode,customerType));
     }
 
-    public Account(String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
-                   String address, PostalCode postalCode, CustomerType customerType) {
-        this.customerName = customerName;
-        this.identificationCode = identificationCode;
-        this.date = date;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.customerType = customerType;
-        invariantValidation();
+    @Override
+    protected void setStateByEvent(Event event) {
+        if (event instanceof AccountCreated accountCreated) {
+            this.accountNumber = accountCreated.getAccountNumber();
+            this.customerName = accountCreated.getCustomerName();
+            this.identificationCode = accountCreated.getIdentificationCode();
+            this.date = accountCreated.getDate();
+            this.phoneNumber = accountCreated.getPhoneNumber();
+            this.address = accountCreated.getAddress();
+            this.postalCode = accountCreated.getPostalCode();
+            this.customerType = accountCreated.getCustomerType();
+        }else if (event instanceof DateChanged dateChanged)
+            this.date = dateChanged.getDate();
+        else if (event instanceof PhoneNumberChanged phoneNumberChanged)
+            this.phoneNumber = phoneNumberChanged.getPhoneNumber();
+        else if (event instanceof AddressChanged addressChanged)
+            this.address = addressChanged.getAddress();
+        else if (event instanceof PostalCodeChanged postalCodeChanged)
+            this.postalCode = postalCodeChanged.getPostalCode();
+        else if (event instanceof CustomerTypeChanged customerTypeChanged)
+            this.customerType = customerTypeChanged.getCustomerType();
+
+        // ....
     }
 
     @Override
@@ -84,40 +91,35 @@ public class Account extends BaseEntity<Account> {
             throw new IllegalArgumentException("postal code must not be null");
         else if (customerType == null)
             throw new IllegalArgumentException("customer type must not be null");
+        else if (accountNumber == null)
+            throw new IllegalArgumentException("accountNumber must not be null");
     }
 
     public void changeDate(Date date){
-        this.date = date;
-        invariantValidation();
+        handleEvent(new DateChanged(id,date));
     }
 
     public void changeAddress(String address) {
-        this.address = address;
-        invariantValidation();
+        handleEvent(new AddressChanged(id,address));
     }
 
     public void changeCustomerName(String customerName) {
-        this.customerName = customerName;
-        invariantValidation();
+        handleEvent(new CustomerNameChanged(id,customerName));
     }
 
     public void changePhoneNumber(PhoneNumber phoneNumber) {
-        this.phoneNumber=phoneNumber;
-        invariantValidation();
+        handleEvent(new PhoneNumberChanged(id,phoneNumber));
     }
 
     public void changeIdentificationCode(IdentificationCode identificationCode) {
-        this.identificationCode=identificationCode;
-        invariantValidation();
+        handleEvent(new IdentificationCodeChanged(id,identificationCode));
     }
 
     public void changePostalCode(PostalCode postalCode) {
-        this.postalCode = postalCode;
-        invariantValidation();
+        handleEvent(new PostalCodeChanged(id,postalCode));
     }
 
     public void changeCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-        invariantValidation();
+        handleEvent(new CustomerTypeChanged(id,customerType));
     }
 }

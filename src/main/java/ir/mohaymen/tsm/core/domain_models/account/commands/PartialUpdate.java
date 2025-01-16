@@ -2,12 +2,10 @@ package ir.mohaymen.tsm.core.domain_models.account.commands;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ir.mohaymen.tsm.core.domain_models.account.commands.deserializer.JalaliDateDeserializer;
-import ir.mohaymen.tsm.framework.domain_models.command.Command;
-import lombok.AllArgsConstructor;
+import ir.mohaymen.tsm.framework.domain_models.commands.Command;
 import lombok.Data;
 
 import java.sql.Date;
-import java.util.Map;
 
 @Data
 public class PartialUpdate implements Command {
