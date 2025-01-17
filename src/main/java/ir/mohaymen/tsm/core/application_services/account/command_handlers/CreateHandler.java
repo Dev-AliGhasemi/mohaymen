@@ -12,7 +12,7 @@ import ir.mohaymen.tsm.framework.application_services.CommandHandler;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("accountCreateHandler")
 public class CreateHandler implements CommandHandler<Create,Void> {
 
     private final AccountRepository accountRepository;

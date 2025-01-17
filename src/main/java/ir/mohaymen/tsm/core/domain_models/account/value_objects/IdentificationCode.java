@@ -1,6 +1,6 @@
 package ir.mohaymen.tsm.core.domain_models.account.value_objects;
 
-import ir.mohaymen.tsm.framework.domain_models.value_objects.BaseValueObjects;
+import ir.mohaymen.tsm.framework.value_objects.BaseValueObjects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

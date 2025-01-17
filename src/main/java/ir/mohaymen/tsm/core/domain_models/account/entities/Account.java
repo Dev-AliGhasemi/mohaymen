@@ -5,14 +5,15 @@ import ir.mohaymen.tsm.core.domain_models.account.value_objects.IdentificationCo
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PhoneNumber;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
 import ir.mohaymen.tsm.core.application_services.audit_log.services.AuditLogListener;
-import ir.mohaymen.tsm.core.domain_models.audit_log.entities.OperationType;
-import ir.mohaymen.tsm.framework.domain_models.entities.BaseEntity;
-import ir.mohaymen.tsm.framework.domain_models.events.Event;
+import ir.mohaymen.tsm.framework.entities.BaseEntity;
+import ir.mohaymen.tsm.framework.events.Event;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Table(name = "accounts", schema = "tsm", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
@@ -44,6 +45,12 @@ public class Account extends BaseEntity<Account> {
     @Column(name = "created_at", nullable = false,updatable = false)
     @CreationTimestamp
     private Date createdAt;
+    @Column(name = "modified_at")
+    @UpdateTimestamp
+    private Date modifiedAt;
+    @Column(name = "amount")
+    private BigDecimal amount = new BigDecimal(0);
+
 
     public Account(Long accountNumber, String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
                    String address, PostalCode postalCode, CustomerType customerType) {
@@ -71,6 +78,8 @@ public class Account extends BaseEntity<Account> {
             this.postalCode = postalCodeChanged.getPostalCode();
         else if (event instanceof CustomerTypeChanged customerTypeChanged)
             this.customerType = customerTypeChanged.getCustomerType();
+        else if (event instanceof AmountChanged amountChanged)
+            this.amount = amountChanged.getAmount();
 
         // ....
     }
@@ -121,5 +130,9 @@ public class Account extends BaseEntity<Account> {
 
     public void changeCustomerType(CustomerType customerType) {
         handleEvent(new CustomerTypeChanged(id,customerType));
+    }
+
+    public void changeAmount(BigDecimal amount) {
+        handleEvent(new AmountChanged(id,amount));
     }
 }

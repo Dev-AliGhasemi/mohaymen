@@ -1,6 +1,6 @@
-package ir.mohaymen.tsm.framework.domain_models.entities;
+package ir.mohaymen.tsm.framework.entities;
 
-import ir.mohaymen.tsm.framework.domain_models.events.Event;
+import ir.mohaymen.tsm.framework.events.Event;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -14,6 +14,7 @@ public abstract class BaseEntity<T> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",nullable = false, unique = true, updatable = false)
+    @Getter
     protected long id;
     @Transient
     protected List<Event> events = new ArrayList<>();
