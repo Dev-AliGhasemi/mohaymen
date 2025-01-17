@@ -1,7 +1,7 @@
 package ir.mohaymen.tsm.core.domain_models.account.events;
 
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
-import ir.mohaymen.tsm.framework.domain_models.events.Event;
+import ir.mohaymen.tsm.framework.events.Event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

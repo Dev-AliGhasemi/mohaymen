@@ -1,4 +1,4 @@
-package ir.mohaymen.tsm.framework.domain_models.value_objects;
+package ir.mohaymen.tsm.framework.value_objects;
 
 public abstract class BaseValueObjects<T> {
     protected abstract int getHashCode();

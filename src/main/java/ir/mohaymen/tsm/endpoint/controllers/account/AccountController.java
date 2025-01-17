@@ -29,6 +29,6 @@ public class AccountController {
     @PatchMapping("/{accountNumber}")
     public void updateAccount(@PathVariable Long accountNumber, @RequestBody PartialUpdate partialUpdate){
         partialUpdate.setAccountNumber(accountNumber);
-         RequestHandler.handleRequest(partialUpdate,partialUpdateHandler::handle);
+        RequestHandler.handleRequest(partialUpdate,partialUpdateHandler::handle);
     }
 }
