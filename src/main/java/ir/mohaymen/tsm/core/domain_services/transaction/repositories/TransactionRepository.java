@@ -10,8 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction,Long> {
     Transaction findById(long id);
-
     Page<Transaction> findAll(Specification<Transaction> specification, Pageable pageable);
-
-    Page<Transaction> findTop100By(Specification<Transaction> specification, Pageable pageable);
 }

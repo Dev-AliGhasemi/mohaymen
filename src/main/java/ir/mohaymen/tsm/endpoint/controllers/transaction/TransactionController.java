@@ -19,7 +19,7 @@ public class TransactionController {
 
 
     @PostMapping
-    public ResponseEntity<TransactionNumberResponse> createAccount(@RequestBody Create create){
+    public ResponseEntity<TransactionNumberResponse> createTransaction(@RequestBody Create create){
          return RequestHandler.handleRequest(create, createReq -> {
              Long id = createHandler.handle(createReq);
              return ResponseEntity.ok(new TransactionNumberResponse(id));

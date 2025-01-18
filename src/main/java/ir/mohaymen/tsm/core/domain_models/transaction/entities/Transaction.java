@@ -1,5 +1,6 @@
 package ir.mohaymen.tsm.core.domain_models.transaction.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ir.mohaymen.tsm.core.domain_models.transaction.event.StatusChanged;
 import ir.mohaymen.tsm.core.domain_models.transaction.event.TransactionCreated;
 import ir.mohaymen.tsm.framework.entities.BaseEntity;
@@ -29,6 +30,7 @@ public class Transaction extends BaseEntity<Transaction> {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.FAILED;
+    @JsonSerialize(using = JalaliDateSerializer.class)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
