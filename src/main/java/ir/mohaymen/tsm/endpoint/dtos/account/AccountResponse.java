@@ -1,23 +1,27 @@
 package ir.mohaymen.tsm.endpoint.dtos.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ir.mohaymen.tsm.core.domain_models.account.entities.Account;
 import ir.mohaymen.tsm.core.domain_models.account.entities.AccountStatus;
 import ir.mohaymen.tsm.core.domain_models.account.entities.CustomerType;
+import ir.mohaymen.tsm.core.domain_models.transaction.entities.JalaliDateSerializer;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class AccountResponse {
     private String customerName;
     private String identificationCode;
-    private Date date;
+    @JsonSerialize(using = JalaliDateSerializer.class)
+    private LocalDate date;
     private String phoneNumber;
     private String address;
     private String postalCode;
     private CustomerType customerType;
     private AccountStatus accountStatus;
-    private Date modifiedAt;
+    @JsonSerialize(using = JalaliDateSerializer.class)
+    private LocalDate modifiedAt;
 
 
     public AccountResponse(Account account) {

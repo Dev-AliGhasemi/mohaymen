@@ -6,13 +6,14 @@ import ir.mohaymen.tsm.framework.commands.Command;
 import lombok.Data;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class Create implements Command {
     private String customerName;
     private String identificationCode;
     @JsonDeserialize(using = JalaliDateDeserializer.class)
-    private Date date;
+    private LocalDate date;
     private String phoneNumber;
     private String address;
     private String postalCode;
