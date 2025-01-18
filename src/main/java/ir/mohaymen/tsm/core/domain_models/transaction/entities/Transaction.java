@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Table(name = "transactions", schema = "tsm")
 @Entity
@@ -33,7 +34,7 @@ public class Transaction extends BaseEntity<Transaction> {
     @JsonSerialize(using = JalaliDateSerializer.class)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
-    private Date createdAt;
+    private LocalDate createdAt;
     @Column(name = "message")
     private String message;
 

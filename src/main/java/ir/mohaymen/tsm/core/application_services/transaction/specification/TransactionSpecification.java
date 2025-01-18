@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class TransactionSpecification implements Specification<Transaction> {
 
@@ -22,15 +23,15 @@ public class TransactionSpecification implements Specification<Transaction> {
     @Override
     public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation() == Operation.GREATER) {
-            if (root.get(criteria.getKey()).getJavaType() == java.sql.Date.class) {
-                Date dateValue = Date.valueOf(criteria.getValue().toString());
+            if (root.get(criteria.getKey()).getJavaType() == java.time.LocalDate.class) {
+                LocalDate dateValue = LocalDate.parse(criteria.getValue().toString());
                 return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), dateValue);
             }else
                 return builder.greaterThanOrEqualTo(
                         root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation() == Operation.LESSER) {
-            if (root.get(criteria.getKey()).getJavaType() == java.sql.Date.class) {
-                Date dateValue = Date.valueOf(criteria.getValue().toString());
+            if (root.get(criteria.getKey()).getJavaType() == java.time.LocalDate.class) {
+                LocalDate dateValue = LocalDate.parse(criteria.getValue().toString());
                 return builder.lessThanOrEqualTo(root.get(criteria.getKey()), dateValue);
             }else
                 return builder.lessThanOrEqualTo(

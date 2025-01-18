@@ -1,10 +1,12 @@
 package ir.mohaymen.tsm.core.domain_models.account.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ir.mohaymen.tsm.core.domain_models.account.events.*;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.IdentificationCode;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PhoneNumber;
 import ir.mohaymen.tsm.core.domain_models.account.value_objects.PostalCode;
 import ir.mohaymen.tsm.core.application_services.audit_log.services.AuditLogListener;
+import ir.mohaymen.tsm.core.domain_models.transaction.entities.JalaliDateSerializer;
 import ir.mohaymen.tsm.framework.entities.BaseEntity;
 import ir.mohaymen.tsm.framework.events.Event;
 import jakarta.persistence.*;
@@ -15,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Table(name = "accounts", schema = "tsm", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
 @Entity
@@ -29,7 +32,7 @@ public class Account extends BaseEntity<Account> {
     @Embedded
     private IdentificationCode identificationCode;
     @Column(name = "date", nullable = false, updatable = false)
-    private Date date;
+    private LocalDate date;
     @Embedded
     private PhoneNumber phoneNumber;
     @Column(name = "address", nullable = false, length = 1000)
@@ -44,15 +47,17 @@ public class Account extends BaseEntity<Account> {
     private AccountStatus accountStatus = AccountStatus.ACTIVE;
     @Column(name = "created_at", nullable = false,updatable = false)
     @CreationTimestamp
-    private Date createdAt;
+    @JsonSerialize(using = JalaliDateSerializer.class)
+    private LocalDate createdAt;
     @Column(name = "modified_at")
     @UpdateTimestamp
-    private Date modifiedAt;
+    @JsonSerialize(using = JalaliDateSerializer.class)
+    private LocalDate modifiedAt;
     @Column(name = "amount")
     private BigDecimal amount = new BigDecimal(0);
 
 
-    public Account(Long accountNumber, String customerName, IdentificationCode identificationCode, Date date, PhoneNumber phoneNumber,
+    public Account(Long accountNumber, String customerName, IdentificationCode identificationCode, LocalDate date, PhoneNumber phoneNumber,
                    String address, PostalCode postalCode, CustomerType customerType) {
         handleEvent(new AccountCreated(accountNumber,customerName,identificationCode,date,phoneNumber,address,postalCode,customerType));
     }
@@ -104,7 +109,7 @@ public class Account extends BaseEntity<Account> {
             throw new IllegalArgumentException("accountNumber must not be null");
     }
 
-    public void changeDate(Date date){
+    public void changeDate(LocalDate date){
         handleEvent(new DateChanged(id,date));
     }
 

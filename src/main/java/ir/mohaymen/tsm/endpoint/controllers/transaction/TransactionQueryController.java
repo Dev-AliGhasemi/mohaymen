@@ -7,7 +7,7 @@ import ir.mohaymen.tsm.core.application_services.transaction.services.Transactio
 import ir.mohaymen.tsm.core.domain_models.transaction.entities.TransactionType;
 import ir.mohaymen.tsm.endpoint.dtos.transaction.PagedTransactionResponse;
 import ir.mohaymen.tsm.endpoint.dtos.transaction.TransactionStatusResponse;
-import ir.mohaymen.tsm.infrastructure.services.DateConversion;
+import ir.mohaymen.tsm.framework.services.DateConverter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,11 @@ import java.util.List;
 public class TransactionQueryController {
 
     private final TransactionQueryService transactionQueryService;
+    private final DateConverter dateConverter;
 
-    public TransactionQueryController(TransactionQueryService transactionQueryService) {
+    public TransactionQueryController(TransactionQueryService transactionQueryService, DateConverter dateConverter) {
         this.transactionQueryService = transactionQueryService;
+        this.dateConverter = dateConverter;
     }
 
 
@@ -60,11 +63,11 @@ public class TransactionQueryController {
         if (maxAmount != null)
             filters.add(new SearchCriteria("amount", Operation.LESSER, maxAmount));
         if (startDate != null) {
-            startDate = DateConversion.jalaliToGregorian(startDate);
+            startDate = dateConverter.jalaliToGregorian(startDate);
             filters.add(new SearchCriteria("createdAt", Operation.GREATER, startDate));
         }
         if (endDate != null) {
-            endDate = DateConversion.jalaliToGregorian(endDate);
+            endDate = dateConverter.jalaliToGregorian(endDate);
             filters.add(new SearchCriteria("createdAt", Operation.LESSER, endDate));
         }
 

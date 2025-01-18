@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class AccountCreated implements Event {
     private Long accountNumber;
     private String customerName;
     private IdentificationCode identificationCode;
-    private Date date;
+    private LocalDate date;
     private PhoneNumber phoneNumber;
     private String address;
     private PostalCode postalCode;
