@@ -23,9 +23,9 @@ public class Transaction extends BaseEntity<Transaction> {
     private Long destinationAccountNumber;
     @Column(name = "amount", nullable = false, updatable = false)
     private BigDecimal amount = new BigDecimal(0);
-    @Column(name = "transaction_type", nullable = false, updatable = false)
+    @Column(name = "type", nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
+    private TransactionType type;
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.FAILED;
@@ -35,8 +35,8 @@ public class Transaction extends BaseEntity<Transaction> {
     @Column(name = "message")
     private String message;
 
-    public Transaction(Long sourceAccountNumber, Long destinationAccountNumber, BigDecimal amount, TransactionType transactionType) {
-        handleEvent(new TransactionCreated(sourceAccountNumber, destinationAccountNumber, amount, transactionType));
+    public Transaction(Long sourceAccountNumber, Long destinationAccountNumber, BigDecimal amount, TransactionType type) {
+        handleEvent(new TransactionCreated(sourceAccountNumber, destinationAccountNumber, amount, type));
     }
 
     @Override
@@ -45,22 +45,22 @@ public class Transaction extends BaseEntity<Transaction> {
             this.sourceAccountNumber = transactionCreated.getSourceAccountNumber();
             this.destinationAccountNumber = transactionCreated.getDestinationAccountNumber();
             this.amount = transactionCreated.getAmount();
-            this.transactionType = transactionCreated.getTransactionType();
+            this.type = transactionCreated.getTransactionType();
         }else if (event instanceof StatusChanged statusChanged)
             this.status = statusChanged.getStatus();
     }
 
     @Override
     protected void invariantValidation() {
-        if (transactionType == TransactionType.WITHDRAW && sourceAccountNumber == null)
+        if (type == TransactionType.WITHDRAW && sourceAccountNumber == null)
             throw new IllegalArgumentException("Source account number must not be null");
-        if (transactionType == TransactionType.DEPOSIT && destinationAccountNumber == null)
+        if (type == TransactionType.DEPOSIT && destinationAccountNumber == null)
             throw new IllegalArgumentException("Destination account number must not be null");
-        if (transactionType == TransactionType.TRANSFER && (sourceAccountNumber == null || destinationAccountNumber == null))
+        if (type == TransactionType.TRANSFER && (sourceAccountNumber == null || destinationAccountNumber == null))
             throw new IllegalArgumentException("Source account number and destination account number must not be null");
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("Amount must not be null or negative");
-        if (transactionType == null)
+        if (type == null)
             throw new IllegalArgumentException("Transaction type must not be null");
     }
 
