@@ -29,12 +29,13 @@ public class AuditLog {
     private String modifiedBy;
     @Lob
     private String details;
-    //TODO add write modifiedBy code
-    public AuditLog(String entityName, Long entityId, OperationType operationType, String details) {
+
+    public AuditLog(String entityName, Long entityId, OperationType operationType, String details, String modifiedBy) {
         this.entityName = entityName;
         this.entityId = entityId;
         this.operationType = operationType;
         this.details = details;
+        this.modifiedBy = modifiedBy;
     }
 
 }

@@ -8,6 +8,7 @@ import ir.mohaymen.tsm.framework.events.Event;
 import jakarta.persistence.*;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -35,11 +36,6 @@ public class AuditLogListener {
         saveAuditLog(OperationType.UPDATE, entity);
     }
 
-    private String getCurrentUser() {
-        // Retrieve the username of the current user (e.g., from the SecurityContext)
-        return "system"; // Placeholder
-    }
-
     @SneakyThrows
     private void saveAuditLog(OperationType operationType, BaseEntity entity) {
         Class<? extends BaseEntity> clazz = entity.getClass();
@@ -49,7 +45,8 @@ public class AuditLogListener {
         idField.setAccessible(true);
         List<Event> events = (List<Event>) eventsField.get(entity);
         Long id = (Long) idField.get(entity);
-        AuditLog auditLog = new AuditLog(clazz.getTypeName(), id, operationType,events.toString());
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        AuditLog auditLog = new AuditLog(clazz.getTypeName(), id, operationType,events.toString(), username);
         auditRepository.save(auditLog);
     }
 }

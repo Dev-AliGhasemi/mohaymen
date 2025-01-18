@@ -2,6 +2,7 @@ package ir.mohaymen.tsm;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "ir.mohaymen.tsm.core.domain_services.audit_log.repositories",
         "ir.mohaymen.tsm.core.domain_services.transaction.repositories"})
 @EnableJpaAuditing
+@EnableAspectJAutoProxy
 public class AppConfiguration {
 
 }
