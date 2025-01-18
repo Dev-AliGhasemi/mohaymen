@@ -9,6 +9,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.sql.Date;
+
 public class TransactionSpecification implements Specification<Transaction> {
 
     private final SearchCriteria criteria;
@@ -20,10 +22,18 @@ public class TransactionSpecification implements Specification<Transaction> {
     @Override
     public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation() == Operation.GREATER) {
-            return builder.greaterThanOrEqualTo(
-                    root.get(criteria.getKey()), criteria.getValue().toString());
+            if (root.get(criteria.getKey()).getJavaType() == java.sql.Date.class) {
+                Date dateValue = Date.valueOf(criteria.getValue().toString());
+                return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), dateValue);
+            }else
+                return builder.greaterThanOrEqualTo(
+                        root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation() == Operation.LESSER) {
-            return builder.lessThanOrEqualTo(
+            if (root.get(criteria.getKey()).getJavaType() == java.sql.Date.class) {
+                Date dateValue = Date.valueOf(criteria.getValue().toString());
+                return builder.lessThanOrEqualTo(root.get(criteria.getKey()), dateValue);
+            }else
+                return builder.lessThanOrEqualTo(
                     root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation() == Operation.IS) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
