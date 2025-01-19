@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "6673f952-eed9-4cf1-a593-c05ca637f3ba",
+		"name": "Mohaymen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8428621"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\":\"AliGhasemi\",\n    \"identificationCode\":\"2400279691\",\n    \"date\":\"1389-2-2\",\n    \"phoneNumber\":\"09900252968\",\n    \"address\":\"Qom\",\n    \"postalCode\":\"1111111111\",\n    \"customerType\":\"PRIVATE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/account",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partial Update Account",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\":\"AliGhasemi\",\n    \"identificationCode\":\"2400279691\",\n    \"date\":\"1389-2-2\",\n    \"phoneNumber\":\"09900252968\",\n    \"address\":\"Qom\",\n    \"postalCode\":\"1111111111\",\n    \"customerType\":\"PRIVATE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/account",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account Number",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/account/account_number/2400279691",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"account",
+						"account_number",
+						"2400279691"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/account/2221027566750",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"account",
+						"2221027566750"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Amount",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/account/amount/90066361734139",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"account",
+						"amount",
+						"90066361734139"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction Request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sourceAccountNumber\":1313123231,\n    \"destinationAccountNumber\":13131232312,\n    \"type\": \"TRANSFER\",\n    \"amount\":1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/transaction",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction Status",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/transaction/1",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"transaction",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Filtered Transaction",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ali",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/transaction?type=TRANSFER&top=true&startDate=1403-10-29&endDate=1403-10-29&sourceAccount=1012312312",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "TRANSFER"
+						},
+						{
+							"key": "top",
+							"value": "true"
+						},
+						{
+							"key": "startDate",
+							"value": "1403-10-29"
+						},
+						{
+							"key": "endDate",
+							"value": "1403-10-29"
+						},
+						{
+							"key": "sourceAccount",
+							"value": "1012312312"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
