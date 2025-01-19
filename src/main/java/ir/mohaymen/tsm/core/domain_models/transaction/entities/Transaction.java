@@ -5,6 +5,7 @@ import ir.mohaymen.tsm.core.domain_models.transaction.event.StatusChanged;
 import ir.mohaymen.tsm.core.domain_models.transaction.event.TransactionCreated;
 import ir.mohaymen.tsm.framework.entities.BaseEntity;
 import ir.mohaymen.tsm.framework.events.Event;
+import ir.mohaymen.tsm.framework.exception.IllegalTransactionException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,15 +57,15 @@ public class Transaction extends BaseEntity<Transaction> {
     @Override
     protected void invariantValidation() {
         if (type == TransactionType.WITHDRAW && sourceAccountNumber == null)
-            throw new IllegalArgumentException("Source account number must not be null");
+            throw new IllegalTransactionException("Source account number must not be null");
         if (type == TransactionType.DEPOSIT && destinationAccountNumber == null)
-            throw new IllegalArgumentException("Destination account number must not be null");
+            throw new IllegalTransactionException("Destination account number must not be null");
         if (type == TransactionType.TRANSFER && (sourceAccountNumber == null || destinationAccountNumber == null))
-            throw new IllegalArgumentException("Source account number and destination account number must not be null");
+            throw new IllegalTransactionException("Source account number and destination account number must not be null");
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("Amount must not be null or negative");
+            throw new IllegalTransactionException("Amount must not be null or negative");
         if (type == null)
-            throw new IllegalArgumentException("Transaction type must not be null");
+            throw new IllegalTransactionException("Transaction type must not be null");
     }
 
     public void changeStatus(Status status) {

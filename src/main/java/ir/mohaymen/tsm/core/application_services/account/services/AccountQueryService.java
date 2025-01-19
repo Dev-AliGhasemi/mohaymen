@@ -17,7 +17,6 @@ public class AccountQueryService {
     }
 
     public Long getAccountNumber(String identificationCode) {
-        //can save in cache
         Account account = accountRepository.findByIdentificationCode(new IdentificationCode(identificationCode));
         if (account == null)
             throw new EntityNotFoundException("Account with identification code " + identificationCode + " not found");
@@ -25,7 +24,6 @@ public class AccountQueryService {
     }
 
     public Account getAccount(Long accountNumber) {
-        //can save in cache
         Account account = accountRepository.findByAccountNumber(accountNumber);
         if (account == null)
             throw new EntityNotFoundException("Account with account number " + accountNumber + " not found");
@@ -33,7 +31,6 @@ public class AccountQueryService {
     }
 
     public BigDecimal getAmount(Long accountNumber) {
-        //at first check from cache
         Account account = accountRepository.findByAccountNumber(accountNumber);
         if (account == null)
             throw new EntityNotFoundException("Account with account number " + accountNumber + " not found");

@@ -9,6 +9,7 @@ import ir.mohaymen.tsm.core.application_services.audit_log.services.AuditLogList
 import ir.mohaymen.tsm.core.domain_models.transaction.entities.JalaliDateSerializer;
 import ir.mohaymen.tsm.framework.entities.BaseEntity;
 import ir.mohaymen.tsm.framework.events.Event;
+import ir.mohaymen.tsm.framework.exception.IllegalAccountException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Table(name = "accounts", schema = "tsm", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
@@ -92,21 +92,21 @@ public class Account extends BaseEntity<Account> {
     @Override
     protected void invariantValidation() {
         if (customerName == null || customerName.isBlank())
-            throw new IllegalArgumentException("customer name must not be null or blank");
+            throw new IllegalAccountException("customer name must not be null or blank");
         else if (identificationCode == null)
-            throw new IllegalArgumentException("identification code must not be null");
+            throw new IllegalAccountException("identification code must not be null");
         else if (date == null)
-            throw new IllegalArgumentException("date must not be null");
+            throw new IllegalAccountException("date must not be null");
         else if (phoneNumber == null)
-            throw new IllegalArgumentException("phone number must not be null");
+            throw new IllegalAccountException("phone number must not be null");
         else if (address == null || address.isBlank())
-            throw new IllegalArgumentException("address must not be null or blank");
+            throw new IllegalAccountException("address must not be null or blank");
         else if (postalCode == null)
-            throw new IllegalArgumentException("postal code must not be null");
+            throw new IllegalAccountException("postal code must not be null");
         else if (customerType == null)
-            throw new IllegalArgumentException("customer type must not be null");
+            throw new IllegalAccountException("customer type must not be null");
         else if (accountNumber == null)
-            throw new IllegalArgumentException("accountNumber must not be null");
+            throw new IllegalAccountException("accountNumber must not be null");
     }
 
     public void changeDate(LocalDate date){
