@@ -57,7 +57,7 @@ public class CreateHandler implements CommandHandler<Create, Long> {
                 transactionFailed(transaction, "Source account is not active");
 
             BigDecimal transactionAmount = transactionAmountCalculator.calculate(create.getAmount());
-            if (transactionAmount.compareTo(sourceAccount.getAmount()) > 0)
+            if (transactionAmount.compareTo(sourceAccount.getAmount()) >= 0)
                 transactionFailed(transaction, "Source account amount is not enough");
 
             changeSourceAccountAmount(create, sourceAccount, transactionAmount, transaction);
