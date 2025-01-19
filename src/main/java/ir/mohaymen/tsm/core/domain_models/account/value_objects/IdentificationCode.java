@@ -1,5 +1,6 @@
 package ir.mohaymen.tsm.core.domain_models.account.value_objects;
 
+import ir.mohaymen.tsm.framework.exception.IdentificationCodeInvalidException;
 import ir.mohaymen.tsm.framework.value_objects.BaseValueObjects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -19,7 +20,7 @@ public class IdentificationCode extends BaseValueObjects<IdentificationCode> {
 
     public IdentificationCode(String code){
         if (code == null || code.isBlank() || code.length() != 10)
-            throw new IllegalArgumentException("identification code must be 10 digits long and not null or blank");
+            throw new IdentificationCodeInvalidException("identification code must be 10 digits long and not null or blank");
         this.code = code;
     }
 

@@ -1,5 +1,6 @@
 package ir.mohaymen.tsm.core.domain_models.account.value_objects;
 
+import ir.mohaymen.tsm.framework.exception.PostalCodeInvalidException;
 import ir.mohaymen.tsm.framework.value_objects.BaseValueObjects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -18,7 +19,7 @@ public class PostalCode extends BaseValueObjects<PostalCode> {
     private String postalCode;
     public PostalCode(String postalCode){
         if (postalCode == null || postalCode.isBlank() || postalCode.length() != 10)
-            throw new IllegalArgumentException("postal code must be 10 digits long and not null or blank");
+            throw new PostalCodeInvalidException("postal code must be 10 digits long and not null or blank");
         this.postalCode = postalCode;
     }
 

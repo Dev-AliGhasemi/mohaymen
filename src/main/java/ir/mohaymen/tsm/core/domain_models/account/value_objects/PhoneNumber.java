@@ -1,5 +1,6 @@
 package ir.mohaymen.tsm.core.domain_models.account.value_objects;
 
+import ir.mohaymen.tsm.framework.exception.PhoneNumberInvalidException;
 import ir.mohaymen.tsm.framework.value_objects.BaseValueObjects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -20,7 +21,7 @@ public class PhoneNumber extends BaseValueObjects<PhoneNumber> {
 
     public PhoneNumber(String phoneNumber){
         if (phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() != 11)
-            throw new IllegalArgumentException("phone number must be 11 digits long and not null or blank");
+            throw new PhoneNumberInvalidException("phone number must be 11 digits long and not null or blank");
         this.phoneNumber = phoneNumber;
     }
 
