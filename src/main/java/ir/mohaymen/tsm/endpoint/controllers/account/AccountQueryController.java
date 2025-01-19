@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 public class AccountQueryController {
 
     private AccountQueryService accountQueryService;
@@ -18,19 +18,17 @@ public class AccountQueryController {
     }
 
     @GetMapping("/account_number/{identificationCode}")
-    public ResponseEntity<AccountNumberResponse> getAccountNumber(@PathVariable String identificationCode){
-         return ResponseEntity.ok(new AccountNumberResponse(accountQueryService.getAccountNumber(identificationCode)));
+    public ResponseEntity<AccountNumberResponse> getAccountNumber(@PathVariable String identificationCode) {
+        return ResponseEntity.ok(new AccountNumberResponse(accountQueryService.getAccountNumber(identificationCode)));
     }
 
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<AccountResponse> getAccount(@PathVariable Long accountNumber){
-        //Input of long maybe can not convert.
+    public ResponseEntity<AccountResponse> getAccount(@PathVariable Long accountNumber) {
         return ResponseEntity.ok(new AccountResponse(accountQueryService.getAccount(accountNumber)));
     }
 
     @GetMapping("/amount/{accountNumber}")
-    public ResponseEntity<AmountResponse> getAmount(@PathVariable Long accountNumber){
-        //Input of long maybe can not convert.
+    public ResponseEntity<AmountResponse> getAmount(@PathVariable Long accountNumber) {
         return ResponseEntity.ok(new AmountResponse(accountQueryService.getAmount(accountNumber)));
     }
 }
