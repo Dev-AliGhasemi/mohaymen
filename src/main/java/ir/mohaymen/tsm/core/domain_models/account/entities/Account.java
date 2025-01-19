@@ -85,8 +85,12 @@ public class Account extends BaseEntity<Account> {
             this.customerType = customerTypeChanged.getCustomerType();
         else if (event instanceof AmountChanged amountChanged)
             this.amount = amountChanged.getAmount();
-
-        // ....
+        else if (event instanceof CustomerNameChanged customerNameChanged)
+            this.customerName = customerNameChanged.getCustomerName();
+        else if (event instanceof IdentificationCodeChanged identificationCodeChanged)
+            this.identificationCode = identificationCodeChanged.getIdentificationCode();
+        else if (event instanceof PostalCodeChanged postalCodeChanged)
+            this.postalCode = postalCodeChanged.getPostalCode();
     }
 
     @Override

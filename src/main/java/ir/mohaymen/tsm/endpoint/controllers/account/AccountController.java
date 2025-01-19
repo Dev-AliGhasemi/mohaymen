@@ -7,7 +7,6 @@ import ir.mohaymen.tsm.core.domain_models.account.commands.PartialUpdate;
 import ir.mohaymen.tsm.endpoint.handler.RequestHandler;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/account")

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Table(name = "transactions", schema = "tsm")
@@ -63,7 +62,7 @@ public class Transaction extends BaseEntity<Transaction> {
         if (type == TransactionType.TRANSFER && (sourceAccountNumber == null || destinationAccountNumber == null))
             throw new IllegalTransactionException("Source account number and destination account number must not be null");
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalTransactionException("Amount must not be null or negative");
+            throw new IllegalTransactionException("Amount must not be null or negative or zero");
         if (type == null)
             throw new IllegalTransactionException("Transaction type must not be null");
     }
