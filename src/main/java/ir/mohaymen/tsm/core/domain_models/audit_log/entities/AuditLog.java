@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Table(name = "audit_log", schema = "tsm", indexes = {@Index(name = "idx_entity_id", columnList = "entity_id"),
+@Table(name = "audit_log", indexes = {@Index(name = "idx_entity_id", columnList = "entity_id"),
         @Index(name = "idx_entity_name", columnList = "entity_name")})
 @Entity
 @NoArgsConstructor

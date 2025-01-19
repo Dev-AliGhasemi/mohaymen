@@ -19,7 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Table(name = "accounts", schema = "tsm", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
+@Table(name = "accounts")
 @Entity
 @NoArgsConstructor
 @EntityListeners(AuditLogListener.class)
@@ -31,7 +31,7 @@ public class Account extends BaseEntity<Account> {
     private String customerName;
     @Embedded
     private IdentificationCode identificationCode;
-    @Column(name = "date", nullable = false, updatable = false)
+    @Column(name = "date_of", nullable = false, updatable = false)
     private LocalDate date;
     @Embedded
     private PhoneNumber phoneNumber;

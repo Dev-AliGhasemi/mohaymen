@@ -14,7 +14,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Table(name = "transactions", schema = "tsm")
+@Table(name = "transactions", indexes = {@Index(name = "idx_source_account_number", columnList = "source_account_number"),
+        @Index(name = "idx_destination_account_number", columnList = "destination_account_number")})
 @Entity
 @NoArgsConstructor
 @Getter
@@ -49,7 +50,7 @@ public class Transaction extends BaseEntity<Transaction> {
             this.destinationAccountNumber = transactionCreated.getDestinationAccountNumber();
             this.amount = transactionCreated.getAmount();
             this.type = transactionCreated.getTransactionType();
-        }else if (event instanceof StatusChanged statusChanged)
+        } else if (event instanceof StatusChanged statusChanged)
             this.status = statusChanged.getStatus();
     }
 
@@ -68,7 +69,7 @@ public class Transaction extends BaseEntity<Transaction> {
     }
 
     public void changeStatus(Status status) {
-        handleEvent(new StatusChanged(id,status));
+        handleEvent(new StatusChanged(id, status));
     }
 
     public void writeMessage(String message) {
